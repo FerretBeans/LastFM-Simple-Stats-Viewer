@@ -27,7 +27,7 @@ if (!y) {
 }
 
 async function stats() {
-    const user = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${username}&api_key=${key}&format=json`);
+    const user = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=${username}&api_key=${key}&format=json`);
     if(!user.ok){
         console.error(`user err: ${user.status}`);
     } else {
@@ -43,7 +43,7 @@ async function stats() {
         document.getElementById("artistcount").innerHTML = artists;
     }
 
-    const curtrack = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${key}&format=json&limit=1`);
+    const curtrack = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${key}&format=json&limit=1`);
     if(!curtrack.ok) {
         console.error(`track err: ${curtrack.status}`);
     } else {
@@ -60,7 +60,7 @@ async function stats() {
         document.getElementById("trackartist").setAttribute("href", `https://last.fm/music/${artist}`)
     }
 
-    const songs = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
+    const songs = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
     if(!songs.ok){
         console.error(`user err: ${songs.status}`);
     } else {
@@ -90,7 +90,7 @@ async function stats() {
         }
     }
 
-    const albums = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
+    const albums = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
     if(!albums.ok){
         console.error(`user err: ${albums.status}`);
     } else {
