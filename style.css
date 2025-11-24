@@ -17,7 +17,7 @@ a {
 
 #info {
     display: flex;
-    width: 50%;
+    width: 65%;
     align-items: center;
 }
 
@@ -34,6 +34,10 @@ a {
 #trackartist {
     color:rgb(121, 121, 121);
     text-decoration: none;
+}
+
+#albums, #songs {
+    opacity: 75%;
 }
 
 div {

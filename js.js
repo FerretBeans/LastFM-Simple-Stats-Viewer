@@ -32,15 +32,26 @@ async function stats() {
         console.error(`user err: ${user.status}`);
     } else {
         var data = await user.json();
+        console.log(data.user)
 
         let pfp = data.user.image[3]["#text"];
         document.getElementById("pfp").setAttribute("src", pfp);
+
+        let link = data.user.url;
+        document.getElementById("pfplink").setAttribute("href", link);
 
         let scrobbles = data.user.playcount;
         document.getElementById("scrobblecount").innerHTML = scrobbles;
 
         let artists = data.user.artist_count;
         document.getElementById("artistcount").innerHTML = artists;
+
+        let realname = data.user.realname;
+        document.getElementById("realname").innerHTML = realname;
+
+        let username = data.user.name;
+        document.getElementById("username").innerHTML = username;
+
     }
 
     const curtrack = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${key}&format=json&limit=1`);
@@ -66,31 +77,47 @@ async function stats() {
     } else {
         var data = await songs.json();
 
-        for(let i = 0; i < 5; i++) {
-            let img = data.toptracks.track[i].image[3]["#text"];
-            let titles = data.toptracks.track[i].name;
-            let trackurl = data.toptracks.track[i].url;
-            let artists = data.toptracks.track[i].artist.name;
+        for(let si = 0; si < 5; si++) {
+            let titles = data.toptracks.track[si].name;
+            let artists = data.toptracks.track[si].artist.name;
 
-            if(!img) {
-                img = "nocover.jpg"
-            }
-            if(!document.getElementById(i)) {
+            if(!document.getElementById(`s${si}`)) { 
                 let s = document.createElement("a");
-                let p = document.createElement("img");
+                let p = document.createElement("img"); 
                 let t = document.createElement("span");
-                s.setAttribute("id", `s${i}`);
-                s.setAttribute("href", trackurl)
+
+                const coverReq = await fetch(`http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${key}&artist=${artists}&track=${titles}&format=json`);
+
+                let trackurl = "#";
+                let img = "";
+
+                if(!coverReq.ok){ 
+                    console.error(`user err: ${coverReq.status}`);
+                } else {
+                    let covdata = await coverReq.json();
+                    if (covdata.track) {
+                        trackurl = covdata.track.url || "#";
+                        img = covdata.track.album?.image?.[3]?.["#text"] || "";
+                        if(!img) {
+                            img = "nocover.png"
+                        }
+                    }
+                }
+
+                s.setAttribute("id", `s${si}`);
+                s.setAttribute("href", trackurl);
                 p.setAttribute("src", img);
-                document.getElementById("songs").appendChild(s);
                 t.innerHTML = titles + " - " + artists;
-                document.getElementById(`s${i}`).appendChild(t);
-                document.getElementById(`s${i}`).appendChild(p);
+                document.getElementById("songs").appendChild(s);
+                s.appendChild(t);
+                s.appendChild(p);
             }
         }
     }
 
-    const albums = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
+        
+
+    const albums = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
     if(!albums.ok){
         console.error(`user err: ${albums.status}`);
     } else {
