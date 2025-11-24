@@ -86,7 +86,7 @@ async function stats() {
                 let p = document.createElement("img"); 
                 let t = document.createElement("span");
 
-                const coverReq = await fetch(`http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${key}&artist=${artists}&track=${titles}&format=json`);
+                const coverReq = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${key}&artist=${artists}&track=${titles}&format=json`);
 
                 let trackurl = "#";
                 let img = "";
@@ -115,7 +115,7 @@ async function stats() {
         }
     }
 
-    const albums = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
+    const albums = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=${key}&format=json&limit=5&period=7day`);
     if(!albums.ok){
         console.error(`user err: ${albums.status}`);
     } else {
