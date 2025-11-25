@@ -109,8 +109,8 @@ async function stats() {
                 p.setAttribute("src", img);
                 t.innerHTML = titles + " - " + artists;
                 document.getElementById("songs").appendChild(s);
-                s.appendChild(t);
                 s.appendChild(p);
+                s.appendChild(t);
             }
         }
     }
@@ -139,8 +139,8 @@ async function stats() {
                 a.setAttribute("src", img);
                 document.getElementById("albums").appendChild(b);
                 g.innerHTML = titles + " - " + artists;
-                document.getElementById(si).appendChild(g);
                 document.getElementById(si).appendChild(a);
+                document.getElementById(si).appendChild(g);
             }
         }
     }
